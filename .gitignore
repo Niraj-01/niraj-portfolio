@@ -1,0 +1,7 @@
+# Resume/CV source and PDFs — kept local, not published
+*.pdf
+*.tex
+
+# Editor/tooling
+.claude/
+.DS_Store

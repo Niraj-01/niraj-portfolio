@@ -10,6 +10,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Space+Grotesk:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
+
+  /* ─────────────────────────────────────────────────────────────
+     Modular type scale — Major Third (ratio 1.25), 16px base.
+     Large display/heading tiers scale fluidly with clamp();
+     text tiers stay fixed for stable readability.
+     ───────────────────────────────────────────────────────────── */
+  :root{
+    --fs-display: clamp(3rem, 1.2rem + 9vw, 11.5rem);       /* 48 → 184px  */
+    --fs-h1:      clamp(2.25rem, 1.4rem + 4.2vw, 5.5rem);   /* 36 → 88px   */
+    --fs-h2:      clamp(1.75rem, 1.2rem + 2.6vw, 3.8rem);   /* 28 → 61px   */
+    --fs-h3:      clamp(1.625rem, 1.25rem + 1.6vw, 2.375rem); /* 26 → 38px */
+    --fs-h4:      1.875rem;   /* 30px — stat figures            */
+    --fs-body-lg: 1.25rem;    /* 20px — lead / intro text       */
+    --fs-body:    1rem;       /* 16px — base body               */
+    --fs-small:   0.8rem;     /* 12.8px — mono labels, dates    */
+    --fs-caption: 0.64rem;    /* 10.24px — micro captions       */
+  }
+
   html { scroll-behavior:smooth; }
   body { background:#0b0b0c; color:#f2f0ea; font-family:"Space Grotesk",sans-serif; -webkit-font-smoothing:antialiased; overflow-x:hidden; }
   ::selection { background:#d8ff3e; color:#0b0b0c; }
@@ -26,12 +44,15 @@
       radial-gradient(120% 120% at 0% 0%, rgba(216,255,62,0.10), transparent 55%),
       linear-gradient(150deg, #16161a 0%, #101013 100%);
   }
-  .proj-slot .mark { font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(40px,7vw,86px); letter-spacing:-0.04em; color:rgba(242,240,234,0.92); line-height:0.9; }
+  .proj-slot .mark { font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h1); letter-spacing:-0.04em; color:rgba(242,240,234,0.92); line-height:0.9; }
   .proj-slot .mark span { color:#d8ff3e; }
-  .proj-slot .tag { font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.14em; color:#8a8a86; }
+  .proj-slot .tag { font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.14em; color:#8a8a86; }
 </style>
 </head>
 <body>
+
+<!-- polite live region: announces the active section to screen readers on navigation -->
+<div id="srStatus" aria-live="polite" role="status" style="position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;"></div>
 
 <div data-screen-label="Portfolio" style="position:relative; width:100%; background:#0b0b0c;">
 
@@ -44,8 +65,8 @@
 
   <!-- loader -->
   <div id="loader" style="position:fixed; inset:0; z-index:11000; background:#0b0b0c; display:flex; align-items:flex-end; justify-content:space-between; padding:6vw; pointer-events:none;">
-    <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(48px,9vw,140px); line-height:0.9; letter-spacing:-0.03em;">N<span style="color:#d8ff3e;">.</span></div>
-    <div id="loaderNum" style="font-family:'Space Mono',monospace; font-size:clamp(40px,7vw,96px); font-weight:700; letter-spacing:-0.02em;">000</div>
+    <div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-display); line-height:0.9; letter-spacing:-0.03em;">N<span style="color:#d8ff3e;">.</span></div>
+    <div id="loaderNum" style="font-family:'Space Mono',monospace; font-size:var(--fs-h1); font-weight:700; letter-spacing:-0.02em;">000</div>
   </div>
 
   <!-- scroll progress -->
@@ -55,8 +76,8 @@
 
   <!-- nav -->
   <nav style="position:fixed; top:0; left:0; right:0; height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 max(22px,4vw); z-index:8000; mix-blend-mode:difference;">
-    <a href="#top" data-mag="0.3" style="font-family:'Syne',sans-serif; font-weight:800; font-size:17px; letter-spacing:-0.01em;">Niraj<span style="color:#d8ff3e;">.</span></a>
-    <div style="display:flex; gap:26px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.04em; text-transform:uppercase;">
+    <a href="#top" data-mag="0.3" style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-body-lg); letter-spacing:-0.01em;">Niraj<span style="color:#d8ff3e;">.</span></a>
+    <div style="display:flex; gap:26px; font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.04em; text-transform:uppercase;">
       <a href="#work" data-mag="0.4">Work</a>
       <a href="#about" data-mag="0.4">About</a>
       <a href="#contact" data-mag="0.4">Contact</a>
@@ -64,42 +85,42 @@
   </nav>
 
   <!-- HERO -->
-  <section id="top" style="min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px max(22px,4vw) 0;">
+  <section id="top" data-title="Home" style="min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:120px max(22px,4vw) 0;">
     <div style="display:flex; align-items:center; gap:14px; margin-bottom:36px;" data-reveal>
       <span style="width:8px; height:8px; border-radius:50%; background:#d8ff3e; display:inline-block; animation:blink 1.6s ease-in-out infinite;"></span>
-      <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#8a8a86;">Available for work · Mumbai, IN</span>
+      <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.18em; text-transform:uppercase; color:#8a8a86;">Available for work · Mumbai, IN</span>
     </div>
-    <h1 style="font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(54px,12.5vw,210px); line-height:0.9; letter-spacing:-0.04em; margin:0;">
+    <h1 style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-display); line-height:0.9; letter-spacing:-0.04em; margin:0;">
       <span data-line style="display:block; overflow:hidden;"><span data-line-inner style="display:block;">SOFTWARE</span></span>
       <span data-line style="display:block; overflow:hidden;"><span data-line-inner style="display:block;">ENGINEER<span style="color:#d8ff3e;">.</span></span></span>
     </h1>
     <div style="display:flex; flex-wrap:wrap; gap:40px; align-items:flex-end; justify-content:space-between; margin-top:48px;">
-      <p data-reveal style="font-size:clamp(17px,2vw,22px); color:#b9b8b3; max-width:560px; line-height:1.45; letter-spacing:-0.01em;">I take products from idea to production: Gemini-powered vision pipelines and live platforms running daily operations for real businesses. Shipped, and used today.</p>
-      <a href="#work" data-mag="0.5" data-cursor="view" style="flex-shrink:0; display:inline-flex; align-items:center; gap:12px; font-family:'Space Mono',monospace; font-size:13px; text-transform:uppercase; letter-spacing:0.1em; border:1px solid rgba(242,240,234,0.25); padding:18px 26px; border-radius:980px;" data-reveal>
-        Selected Work <span style="font-size:16px;">↓</span>
+      <p data-reveal style="font-size:var(--fs-body-lg); color:#b9b8b3; max-width:560px; line-height:1.45; letter-spacing:-0.01em;">I take products from idea to production: Gemini-powered vision pipelines and live platforms running daily operations for real businesses. Shipped, and used today.</p>
+      <a href="#work" data-mag="0.5" data-cursor="view" style="flex-shrink:0; display:inline-flex; align-items:center; gap:12px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.1em; border:1px solid rgba(242,240,234,0.25); padding:18px 26px; border-radius:980px;" data-reveal>
+        Selected Work <span style="font-size:var(--fs-body);">↓</span>
       </a>
     </div>
   </section>
 
   <!-- marquee -->
   <div style="border-top:1px solid rgba(242,240,234,0.12); border-bottom:1px solid rgba(242,240,234,0.12); overflow:hidden; padding:22px 0; white-space:nowrap;">
-    <div style="display:inline-block; animation:marquee 26s linear infinite; font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(28px,4.5vw,64px); letter-spacing:-0.02em;">
+    <div style="display:inline-block; animation:marquee 26s linear infinite; font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h2); letter-spacing:-0.02em;">
       <span style="color:#8a8a86;">Next.js</span> &nbsp;✦&nbsp; TypeScript &nbsp;✦&nbsp; <span style="color:#d8ff3e;">Gemini AI</span> &nbsp;✦&nbsp; Python &nbsp;✦&nbsp; <span style="color:#8a8a86;">TensorFlow</span> &nbsp;✦&nbsp; Supabase &nbsp;✦&nbsp; FastAPI &nbsp;✦&nbsp;
       <span style="color:#8a8a86;">Next.js</span> &nbsp;✦&nbsp; TypeScript &nbsp;✦&nbsp; <span style="color:#d8ff3e;">Gemini AI</span> &nbsp;✦&nbsp; Python &nbsp;✦&nbsp; <span style="color:#8a8a86;">TensorFlow</span> &nbsp;✦&nbsp; Supabase &nbsp;✦&nbsp; FastAPI &nbsp;✦&nbsp;
     </div>
   </div>
 
   <!-- ABOUT -->
-  <section id="about" style="padding:130px max(22px,4vw); max-width:1100px; margin:0 auto;">
-    <div data-reveal style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:40px;">( 01 ) / About</div>
-    <p data-words style="font-family:'Syne',sans-serif; font-weight:600; font-size:clamp(26px,4vw,50px); line-height:1.18; letter-spacing:-0.02em;">I'm Niraj, an engineer who ships AI products that real people use every day, and I move fast. From OCR pipelines that digitize handwritten registers to nutrition apps that read a plate from a photo, I turn ideas into live, working software.</p>
+  <section id="about" data-title="About" style="padding:130px max(22px,4vw); max-width:1100px; margin:0 auto;">
+    <div data-reveal style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:40px;">( 01 ) / About</div>
+    <p data-words style="font-family:'Syne',sans-serif; font-weight:600; font-size:var(--fs-h2); line-height:1.18; letter-spacing:-0.02em;">I'm Niraj, an engineer who ships AI products that real people use every day, and I move fast. From OCR pipelines that digitize handwritten registers to nutrition apps that read a plate from a photo, I turn ideas into live, working software.</p>
   </section>
 
   <!-- WORK -->
-  <section id="work" style="padding:40px max(22px,4vw) 110px;">
+  <section id="work" data-title="Selected Work" style="padding:40px max(22px,4vw) 110px;">
     <div style="display:flex; align-items:baseline; justify-content:space-between; gap:20px; max-width:1280px; margin:0 auto 60px; flex-wrap:wrap;">
-      <h2 data-reveal style="font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(34px,6vw,86px); letter-spacing:-0.03em; line-height:0.95;">Selected Work</h2>
-      <div data-reveal style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:#8a8a86;">( 02 ) / 2024–2026</div>
+      <h2 data-reveal style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h1); letter-spacing:-0.03em; line-height:0.95;">Selected Work</h2>
+      <div data-reveal style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.1em; text-transform:uppercase; color:#8a8a86;">( 02 ) / 2024–2026</div>
     </div>
     <div style="max-width:1280px; margin:0 auto; display:flex; flex-direction:column; gap:80px;">
 
@@ -110,20 +131,20 @@
         </div>
         <div data-proj-body="false">
           <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:18px;">
-            <span style="font-family:'Space Mono',monospace; font-size:13px; color:#d8ff3e;">01</span>
-            <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">Production AI Platform</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e;">01</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">Production AI Platform</span>
           </div>
-          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(32px,4.5vw,60px); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">GymCentre</h3>
-          <div style="font-family:'Space Mono',monospace; font-size:12px; color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Next.js · TypeScript · Supabase · Gemini AI</div>
-          <p style="color:#b9b8b3; font-size:16px; line-height:1.55; max-width:48ch; margin-bottom:26px;">A full-stack gym management platform running live operations for Matoshree Fitness. Tenant-isolated dashboard backed by Postgres Row-Level Security, a Gemini Vision OCR module that digitizes handwritten registers, and one-tap WhatsApp renewal reminders.</p>
+          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h2); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">GymCentre</h3>
+          <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Next.js · TypeScript · Supabase · Gemini AI</div>
+          <p style="color:#b9b8b3; font-size:var(--fs-body); line-height:1.55; max-width:48ch; margin-bottom:26px;">A full-stack gym management platform running live operations for Matoshree Fitness. Tenant-isolated dashboard backed by Postgres Row-Level Security, a Gemini Vision OCR module that digitizes handwritten registers, and one-tap WhatsApp renewal reminders.</p>
           <div style="display:flex; gap:36px; flex-wrap:wrap; margin-bottom:28px;">
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">75+</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">active members</div></div>
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">94%</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">OCR accuracy</div></div>
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">~10h</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">saved / week</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">75+</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">active members</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">94%</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">OCR accuracy</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">~10h</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">saved / week</div></div>
           </div>
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
-            <a href="https://gym-centre-nu.vercel.app" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">Live ↗</a>
-            <a href="https://github.com/Niraj-01/gym-center" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
+            <a href="https://gym-centre-nu.vercel.app" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">Live ↗</a>
+            <a href="https://github.com/Niraj-01/gym-center" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
           </div>
         </div>
       </article>
@@ -135,19 +156,19 @@
         </div>
         <div data-proj-body="true">
           <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:18px;">
-            <span style="font-family:'Space Mono',monospace; font-size:13px; color:#d8ff3e;">02</span>
-            <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">AI Nutrition App</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e;">02</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">AI Nutrition App</span>
           </div>
-          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(32px,4.5vw,60px); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">Calories Tracker</h3>
-          <div style="font-family:'Space Mono',monospace; font-size:12px; color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Next.js · React · Gemini Vision · Firebase · Recharts</div>
-          <p style="color:#b9b8b3; font-size:16px; line-height:1.55; max-width:48ch; margin-bottom:26px;">A live, mobile-first nutrition tracker where users log meals via AI photo scan, barcode, or search, recognizing food and estimating calories and macros at ~92% accuracy. Auto-personalizes BMR/TDEE goals and visualizes macro, water, and weight trends.</p>
+          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h2); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">Calories Tracker</h3>
+          <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Next.js · React · Gemini Vision · Firebase · Recharts</div>
+          <p style="color:#b9b8b3; font-size:var(--fs-body); line-height:1.55; max-width:48ch; margin-bottom:26px;">A live, mobile-first nutrition tracker where users log meals via AI photo scan, barcode, or search, recognizing food and estimating calories and macros at ~92% accuracy. Auto-personalizes BMR/TDEE goals and visualizes macro, water, and weight trends.</p>
           <div style="display:flex; gap:36px; flex-wrap:wrap; margin-bottom:28px;">
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">~92%</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">macro accuracy</div></div>
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">3-way</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">photo·barcode·search</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">~92%</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">macro accuracy</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">3-way</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">photo·barcode·search</div></div>
           </div>
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
-            <a href="https://calories-88b0d.web.app/" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">Live ↗</a>
-            <a href="https://github.com/Niraj-01/calories" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
+            <a href="https://calories-88b0d.web.app/" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">Live ↗</a>
+            <a href="https://github.com/Niraj-01/calories" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
           </div>
         </div>
       </article>
@@ -159,18 +180,18 @@
         </div>
         <div data-proj-body="false">
           <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:18px;">
-            <span style="font-family:'Space Mono',monospace; font-size:13px; color:#d8ff3e;">03</span>
-            <span style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">Document Intelligence</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e;">03</span>
+            <span style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.08em; text-transform:uppercase; color:#8a8a86;">Document Intelligence</span>
           </div>
-          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(32px,4.5vw,60px); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">PaperBrain</h3>
-          <div style="font-family:'Space Mono',monospace; font-size:12px; color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Python · TensorFlow · FastAPI · GCP · Next.js</div>
-          <p style="color:#b9b8b3; font-size:16px; line-height:1.55; max-width:48ch; margin-bottom:26px;">An AI invoice processing system pairing Google Vision OCR with custom CNN classifiers. A multi-stage inference pipeline processes documents in under 1.5s, with LSTM/TCN models for downstream forecasting on extracted transactional data.</p>
+          <h3 data-cursor="view" style="font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h2); letter-spacing:-0.02em; line-height:1; margin-bottom:16px;">PaperBrain</h3>
+          <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e; letter-spacing:0.02em; margin-bottom:18px;">Python · TensorFlow · FastAPI · GCP · Next.js</div>
+          <p style="color:#b9b8b3; font-size:var(--fs-body); line-height:1.55; max-width:48ch; margin-bottom:26px;">An AI invoice processing system pairing Google Vision OCR with custom CNN classifiers. A multi-stage inference pipeline processes documents in under 1.5s, with LSTM/TCN models for downstream forecasting on extracted transactional data.</p>
           <div style="display:flex; gap:36px; flex-wrap:wrap; margin-bottom:28px;">
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">96%</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">extraction accuracy</div></div>
-            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:30px; letter-spacing:-0.02em;">&lt;1.5s</div><div style="font-family:'Space Mono',monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">per document</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">96%</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">extraction accuracy</div></div>
+            <div><div style="font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-h4); letter-spacing:-0.02em;">&lt;1.5s</div><div style="font-family:'Space Mono',monospace; font-size:var(--fs-caption); text-transform:uppercase; letter-spacing:0.06em; color:#8a8a86; margin-top:4px;">per document</div></div>
           </div>
           <div style="display:flex; gap:14px; flex-wrap:wrap;">
-            <a href="https://github.com/Niraj-01/PaperBrain" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:12px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
+            <a href="https://github.com/Niraj-01/PaperBrain" target="_blank" rel="noopener" data-mag="0.4" style="display:inline-flex; align-items:center; gap:8px; font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:12px 20px; border-radius:980px;">GitHub ↗</a>
           </div>
         </div>
       </article>
@@ -179,30 +200,30 @@
   </section>
 
   <!-- EXPERIENCE -->
-  <section style="padding:0 max(22px,4vw) 120px;">
+  <section id="experience" data-title="Experience" style="padding:0 max(22px,4vw) 120px;">
     <div style="max-width:1100px; margin:0 auto;">
-      <div data-reveal style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:44px;">( 03 ) / Experience</div>
+      <div data-reveal style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:44px;">( 03 ) / Experience</div>
 
       <div data-reveal data-role style="display:grid; grid-template-columns:200px 1fr; gap:30px; padding:38px 0; border-top:1px solid rgba(242,240,234,0.14); transition:padding-left .4s cubic-bezier(.22,.61,.36,1);">
-        <div style="font-family:'Space Mono',monospace; font-size:13px; color:#8a8a86;">Jun 2025 – Jul 2025</div>
+        <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#8a8a86;">Jun 2025 – Jul 2025</div>
         <div>
-          <h3 style="font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(22px,3vw,34px); letter-spacing:-0.02em; line-height:1.05;">SDE Intern</h3>
-          <div style="font-family:'Space Mono',monospace; font-size:13px; color:#d8ff3e; margin:8px 0 18px;">TransBnk Solutions · Mumbai</div>
+          <h3 style="font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h3); letter-spacing:-0.02em; line-height:1.05;">SDE Intern</h3>
+          <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e; margin:8px 0 18px;">TransBnk Solutions · Mumbai</div>
           <ul style="list-style:none; display:grid; gap:12px;">
-            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:16px; line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Developed 8+ modules of an internal Request Hub Portal in Next.js and Tailwind CSS, integrating 15+ REST APIs serving 100+ daily internal users.</li>
-            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:16px; line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Cut code-review turnaround by 40% by configuring Husky pre-commit hooks with ESLint and Prettier across the 6-engineer team repository.</li>
+            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:var(--fs-body); line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Developed 8+ modules of an internal Request Hub Portal in Next.js and Tailwind CSS, integrating 15+ REST APIs serving 100+ daily internal users.</li>
+            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:var(--fs-body); line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Cut code-review turnaround by 40% by configuring Husky pre-commit hooks with ESLint and Prettier across the 6-engineer team repository.</li>
           </ul>
         </div>
       </div>
 
       <div data-reveal data-role style="display:grid; grid-template-columns:200px 1fr; gap:30px; padding:38px 0; border-top:1px solid rgba(242,240,234,0.14); transition:padding-left .4s cubic-bezier(.22,.61,.36,1);">
-        <div style="font-family:'Space Mono',monospace; font-size:13px; color:#8a8a86;">Aug 2023 – May 2027</div>
+        <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#8a8a86;">Aug 2023 – May 2027</div>
         <div>
-          <h3 style="font-family:'Syne',sans-serif; font-weight:700; font-size:clamp(22px,3vw,34px); letter-spacing:-0.02em; line-height:1.05;">B.Tech, Computer Science Engineering</h3>
-          <div style="font-family:'Space Mono',monospace; font-size:13px; color:#d8ff3e; margin:8px 0 18px;">Amity University · Mumbai</div>
+          <h3 style="font-family:'Syne',sans-serif; font-weight:700; font-size:var(--fs-h3); letter-spacing:-0.02em; line-height:1.05;">B.Tech, Computer Science Engineering</h3>
+          <div style="font-family:'Space Mono',monospace; font-size:var(--fs-small); color:#d8ff3e; margin:8px 0 18px;">Amity University · Mumbai</div>
           <ul style="list-style:none; display:grid; gap:12px;">
-            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:16px; line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Google Build with AI Bootcamp: built and demoed Generative AI applications on Google's Gemini stack.</li>
-            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:16px; line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Google Solution Challenge: designed AI-driven solutions for the UN Sustainable Development Goals.</li>
+            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:var(--fs-body); line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Google Build with AI Bootcamp: built and demoed Generative AI applications on Google's Gemini stack.</li>
+            <li style="position:relative; padding-left:22px; color:#b9b8b3; font-size:var(--fs-body); line-height:1.5;"><span style="position:absolute; left:0; top:9px; width:6px; height:6px; border-radius:50%; background:#d8ff3e;"></span>Google Solution Challenge: designed AI-driven solutions for the UN Sustainable Development Goals.</li>
           </ul>
         </div>
       </div>
@@ -212,20 +233,20 @@
   </section>
 
   <!-- CONTACT -->
-  <section id="contact" style="padding:120px max(22px,4vw) 70px; border-top:1px solid rgba(242,240,234,0.12);">
+  <section id="contact" data-title="Contact" style="padding:120px max(22px,4vw) 70px; border-top:1px solid rgba(242,240,234,0.12);">
     <div style="max-width:1280px; margin:0 auto; text-align:center;">
-      <div data-reveal style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:36px;">( 04 ) / Contact</div>
-      <a href="mailto:nirajvaidya0.0@gmail.com" data-mag="0.25" data-cursor="email" style="display:inline-block; font-family:'Syne',sans-serif; font-weight:800; font-size:clamp(44px,11vw,170px); letter-spacing:-0.04em; line-height:0.92;" data-reveal>Let's talk<span style="color:#d8ff3e;">.</span></a>
-      <p data-reveal style="margin:36px auto 0; max-width:520px; color:#b9b8b3; font-size:18px; line-height:1.5;">Want an engineer who turns ideas into live, working software? I'm one email away.</p>
+      <div data-reveal style="font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.18em; text-transform:uppercase; color:#d8ff3e; margin-bottom:36px;">( 04 ) / Contact</div>
+      <a href="mailto:nirajvaidya0.0@gmail.com" data-mag="0.25" data-cursor="email" style="display:inline-block; font-family:'Syne',sans-serif; font-weight:800; font-size:var(--fs-display); letter-spacing:-0.04em; line-height:0.92;" data-reveal>Let's talk<span style="color:#d8ff3e;">.</span></a>
+      <p data-reveal style="margin:36px auto 0; max-width:520px; color:#b9b8b3; font-size:var(--fs-body-lg); line-height:1.5;">Want an engineer who turns ideas into live, working software? I'm one email away.</p>
       <div style="display:flex; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:40px;" data-reveal>
-        <a href="mailto:nirajvaidya0.0@gmail.com" data-mag="0.4" style="font-family:'Space Mono',monospace; font-size:13px; text-transform:uppercase; letter-spacing:0.08em; background:#d8ff3e; color:#0b0b0c; padding:16px 28px; border-radius:980px; font-weight:700;">nirajvaidya0.0@gmail.com</a>
-        <a href="https://linkedin.com/in/niraj-vaidya" target="_blank" rel="noopener" data-mag="0.4" style="font-family:'Space Mono',monospace; font-size:13px; text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:16px 28px; border-radius:980px;">LinkedIn ↗</a>
+        <a href="mailto:nirajvaidya0.0@gmail.com" data-mag="0.4" style="font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; background:#d8ff3e; color:#0b0b0c; padding:16px 28px; border-radius:980px; font-weight:700;">nirajvaidya0.0@gmail.com</a>
+        <a href="https://linkedin.com/in/niraj-vaidya" target="_blank" rel="noopener" data-mag="0.4" style="font-family:'Space Mono',monospace; font-size:var(--fs-small); text-transform:uppercase; letter-spacing:0.08em; border:1px solid rgba(242,240,234,0.25); padding:16px 28px; border-radius:980px;">LinkedIn ↗</a>
       </div>
     </div>
   </section>
 
   <!-- FOOTER -->
-  <footer style="padding:30px max(22px,4vw) 40px; border-top:1px solid rgba(242,240,234,0.12); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-family:'Space Mono',monospace; font-size:12px; letter-spacing:0.04em; color:#8a8a86;">
+  <footer style="padding:30px max(22px,4vw) 40px; border-top:1px solid rgba(242,240,234,0.12); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; font-family:'Space Mono',monospace; font-size:var(--fs-small); letter-spacing:0.04em; color:#8a8a86;">
     <span>© 2026 Niraj Ashwin Vaidya</span>
     <span id="clock" style="color:#b9b8b3;">00 : 00 : 00</span>
     <div style="display:flex; gap:22px;">
@@ -399,6 +420,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
   mq.addEventListener('change', applyMq); applyMq();
+
+  // ---- Document title + SR announcement per section ----
+  // Pattern: "<Section> — Niraj Vaidya · Software Engineer" (Home shows the base title).
+  const SITE = 'Niraj Vaidya · Software Engineer';
+  const srStatus = $('srStatus');
+  const sections = [...document.querySelectorAll('section[data-title]')];
+  let currentTitle = '';
+  const setTitle = (label) => {
+    const next = (!label || label === 'Home') ? SITE : `${label} — ${SITE}`;
+    if (next === currentTitle) return;
+    currentTitle = next;
+    document.title = next;
+    if (srStatus) srStatus.textContent = (!label || label === 'Home') ? SITE : label;
+  };
+  if (sections.length) {
+    // Track whichever section occupies the most viewport height.
+    const ratios = new Map();
+    const tio = new IntersectionObserver((entries) => {
+      entries.forEach(e => ratios.set(e.target, e.isIntersecting ? e.intersectionRatio : 0));
+      let best = null, bestR = 0;
+      ratios.forEach((r, el) => { if (r > bestR) { bestR = r; best = el; } });
+      if (best) setTitle(best.getAttribute('data-title'));
+    }, { threshold: [0.15, 0.35, 0.55, 0.75] });
+    sections.forEach(s => tio.observe(s));
+    // Direct hash navigation (menu clicks, deep links) updates the title immediately.
+    const fromHash = () => {
+      const el = location.hash && document.querySelector(location.hash);
+      if (el && el.matches('section[data-title]')) setTitle(el.getAttribute('data-title'));
+    };
+    window.addEventListener('hashchange', fromHash);
+    fromHash();
+  }
 });
 </script>
 </body>
